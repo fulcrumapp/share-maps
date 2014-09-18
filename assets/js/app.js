@@ -32,8 +32,7 @@ var highlight = L.geoJson(null);
 var markerClusters = new L.MarkerClusterGroup({
   spiderfyOnMaxZoom: true,
   showCoverageOnHover: false,
-  zoomToBoundsOnClick: true,
-  disableClusteringAtZoom: 16
+  zoomToBoundsOnClick: true
 });
 
 var markers = L.geoJson(null, {
