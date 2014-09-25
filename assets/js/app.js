@@ -1,8 +1,8 @@
-var map, featureList, activeRecord;
-
+var map, featureList, activeRecord, titleField;
 var hiddenSystemFields = ["Created At", "Updated At", "Created By", "Updated By", "System Created At", "System Updated At", "Version", "Project", "Assigned To", "Latitude", "Longitude", "Gps Altitude", "Gps Horizontal Accuracy", "Gps Vertical Accuracy", "Gps Speed", "Gps Course", "Address Sub Thoroughfare", "Address Thoroughfare", "Address Locality", "Address Sub Admin Area", "Address Admin Area", "Address Postal Code", "Address Suite", "Address Country"];
-var hiddenUserFields = ["Photos", "Photos Caption", "Videos", "Videos Caption", "Signatures", "Signatures Caption"];
+var userFields = [];
 
+/* Get URL parameters */
 var urlParams = {};
 
 if (location.search) {
@@ -12,6 +12,20 @@ if (location.search) {
     if (!nv[0]) continue;
     urlParams[nv[0]] = nv[1] || true;
   }
+}
+
+if (urlParams.title_field) {
+  titleField = decodeURI(urlParams.title_field);
+} else {
+  titleField = "Fulcrum Id";
+}
+
+if (urlParams.fields) {
+  fields = urlParams.fields.split(",");
+  $.each(fields, function(index, field) {
+    field = decodeURI(field);
+    userFields.push(field);
+  });
 }
 
 /* Basemap Layers */
@@ -38,13 +52,13 @@ var markerClusters = new L.MarkerClusterGroup({
 var markers = L.geoJson(null, {
   pointToLayer: function (feature, latlng) {
     return L.marker(latlng, {
-      title: feature.properties[decodeURI(urlParams.title_field)],
+      title: feature.properties[titleField],
       riseOnHover: true
     });
   },
   onEachFeature: function (feature, layer) {
     if (feature.properties) {
-      var title = decodeURI(urlParams.title_field);
+      var title = titleField;
       var content = "<table class='table table-striped table-bordered table-condensed'>";
       $.each(feature.properties, function(index, prop) {
         if (prop === null) {
@@ -56,8 +70,14 @@ var markers = L.geoJson(null, {
         } else if (prop.toString().indexOf("https://web.fulcrumapp.com/shares/" + urlParams.id + "/signatures/") === 0) {
           prop = "<a href='" + prop + "' target='blank'>View signatures</a>";
         }
-        if ($.inArray(index, hiddenSystemFields) == -1 && $.inArray(index, hiddenUserFields) == -1 && index !== "Fulcrum Id") {
-          content += "<tr><th>" + index + "</th><td>" + prop + "</td></tr>";
+        if (userFields.length > 0) {
+          if ($.inArray(index, hiddenSystemFields) == -1 && $.inArray(index, userFields) !== -1 && index !== "Fulcrum Id") {
+            content += "<tr><th>" + index + "</th><td>" + prop + "</td></tr>";
+          }
+        } else {
+          if ($.inArray(index, hiddenSystemFields) == -1 && index !== "Fulcrum Id") {
+            content += "<tr><th>" + index + "</th><td>" + prop + "</td></tr>";
+          }
         }
       });
       content += "<table>";
@@ -85,9 +105,10 @@ $(document).on("click", ".feature-row", function(e) {
 });
 
 $(document).ready(function() {
-  fetchRecords();
   if (!urlParams.id) {
-    alert('URL missing data share "id" parameter!');
+    alert("URL missing data share 'id' parameter!");
+  } else {
+    fetchRecords();
   }
 });
 
@@ -144,7 +165,7 @@ function sidebarClick(id) {
     map.addLayer(markerClusters);
   }
   var layer = markers.getLayer(id);
-  map.setView([layer.getLatLng().lat, layer.getLatLng().lng], 17);
+  map.setView([layer.getLatLng().lat, layer.getLatLng().lng], 18);
   layer.fire("click");
   /* Hide sidebar and go to the map on small screens */
   if (document.body.clientWidth <= 767) {
@@ -229,7 +250,7 @@ var baseLayers = {
 };
 
 var overlays = {
-  "<span name='title'>Fulcrum</span>": markerClusters
+  "<span name='title'>Fulcrum Data</span>": markerClusters
 };
 
 var layerControl = L.control.layers(baseLayers, overlays, {
@@ -239,17 +260,14 @@ var layerControl = L.control.layers(baseLayers, overlays, {
 
 /* After GeoJSON loads */
 $(document).one("ajaxStop", function () {
-  $("#loading").hide();
   /* Update navbar & layer title from URL parameter */
   if (urlParams.title && urlParams.title.length > 0) {
     var title = decodeURI(urlParams.title);
     $("[name='title']").html(title);
   }
-  /* Update navbar logo from URL parameter */
+  /* Add navbar logo from URL parameter */
   if (urlParams.logo && urlParams.logo.length > 0) {
     $("#navbar-title").prepend("<img src='" + urlParams.logo + "'>");
-  } else {
-    $("#navbar-title").prepend("<img src='assets/img/logo.png'>");
   }
 
   $("#csv-download").attr("href", "https://web.fulcrumapp.com/shares/" + urlParams.id + ".csv");
