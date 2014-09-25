@@ -194,7 +194,17 @@ map = L.map("map", {
   layers: [mapboxOSM, markerClusters, highlight],
   zoomControl: false
 }).fitWorld();
-map.attributionControl.setPrefix("Powered by <a href='http://fulcrumapp.com/' target='_blank'>Fulcrum</a>");
+map.attributionControl.setPrefix("");
+
+var fulcrumControl = new L.control({
+  position: "bottomright"
+});
+fulcrumControl.onAdd = function (map) {
+  var div = L.DomUtil.create("div", "leaflet-control-attribution");
+  div.innerHTML = "<a href='http://fulcrumapp.com/' target='_blank'><img src='assets/img/fulcrum-power.png'></a>";
+  return div;
+};
+map.addControl(fulcrumControl);
 
 /* Clear feature highlight when map is clicked */
 map.on("click", function(e) {
