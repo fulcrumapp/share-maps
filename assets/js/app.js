@@ -144,7 +144,7 @@ function sidebarClick(id) {
     map.addLayer(markerClusters);
   }
   var layer = markers.getLayer(id);
-  map.setView([layer.getLatLng().lat, layer.getLatLng().lng], 17);
+  map.setView([layer.getLatLng().lat, layer.getLatLng().lng], 18);
   layer.fire("click");
   /* Hide sidebar and go to the map on small screens */
   if (document.body.clientWidth <= 767) {
@@ -229,7 +229,7 @@ var baseLayers = {
 };
 
 var overlays = {
-  "<span name='title'>Fulcrum</span>": markerClusters
+  "<span name='title'>Fulcrum Data</span>": markerClusters
 };
 
 var layerControl = L.control.layers(baseLayers, overlays, {
@@ -245,11 +245,9 @@ $(document).one("ajaxStop", function () {
     var title = decodeURI(urlParams.title);
     $("[name='title']").html(title);
   }
-  /* Update navbar logo from URL parameter */
+  /* Add navbar logo from URL parameter */
   if (urlParams.logo && urlParams.logo.length > 0) {
     $("#navbar-title").prepend("<img src='" + urlParams.logo + "'>");
-  } else {
-    $("#navbar-title").prepend("<img src='assets/img/logo.png'>");
   }
 
   $("#csv-download").attr("href", "https://web.fulcrumapp.com/shares/" + urlParams.id + ".csv");
