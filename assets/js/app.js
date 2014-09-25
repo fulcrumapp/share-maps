@@ -1,8 +1,8 @@
 var map, featureList, activeRecord, titleField;
-
 var hiddenSystemFields = ["Created At", "Updated At", "Created By", "Updated By", "System Created At", "System Updated At", "Version", "Project", "Assigned To", "Latitude", "Longitude", "Gps Altitude", "Gps Horizontal Accuracy", "Gps Vertical Accuracy", "Gps Speed", "Gps Course", "Address Sub Thoroughfare", "Address Thoroughfare", "Address Locality", "Address Sub Admin Area", "Address Admin Area", "Address Postal Code", "Address Suite", "Address Country"];
-var hiddenUserFields = ["Photos", "Photos Caption", "Videos", "Videos Caption", "Signatures", "Signatures Caption"];
+var userFields = [];
 
+/* Get URL parameters */
 var urlParams = {};
 
 if (location.search) {
@@ -12,6 +12,20 @@ if (location.search) {
     if (!nv[0]) continue;
     urlParams[nv[0]] = nv[1] || true;
   }
+}
+
+if (urlParams.title_field) {
+  titleField = decodeURI(urlParams.title_field);
+} else {
+  titleField = "Fulcrum Id";
+}
+
+if (urlParams.fields) {
+  fields = urlParams.fields.split(",");
+  $.each(fields, function(index, field) {
+    field = decodeURI(field);
+    userFields.push(field);
+  });
 }
 
 /* Basemap Layers */
@@ -35,12 +49,6 @@ var markerClusters = new L.MarkerClusterGroup({
   zoomToBoundsOnClick: true
 });
 
-if (urlParams.title_field) {
-  titleField = decodeURI(urlParams.title_field);
-} else {
-  titleField = "Fulcrum Id";
-}
-
 var markers = L.geoJson(null, {
   pointToLayer: function (feature, latlng) {
     return L.marker(latlng, {
@@ -62,8 +70,14 @@ var markers = L.geoJson(null, {
         } else if (prop.toString().indexOf("https://web.fulcrumapp.com/shares/" + urlParams.id + "/signatures/") === 0) {
           prop = "<a href='" + prop + "' target='blank'>View signatures</a>";
         }
-        if ($.inArray(index, hiddenSystemFields) == -1 && $.inArray(index, hiddenUserFields) == -1 && index !== "Fulcrum Id") {
-          content += "<tr><th>" + index + "</th><td>" + prop + "</td></tr>";
+        if (userFields.length > 0) {
+          if ($.inArray(index, hiddenSystemFields) == -1 && $.inArray(index, userFields) !== -1 && index !== "Fulcrum Id") {
+            content += "<tr><th>" + index + "</th><td>" + prop + "</td></tr>";
+          }
+        } else {
+          if ($.inArray(index, hiddenSystemFields) == -1 && index !== "Fulcrum Id") {
+            content += "<tr><th>" + index + "</th><td>" + prop + "</td></tr>";
+          }
         }
       });
       content += "<table>";
@@ -92,7 +106,7 @@ $(document).on("click", ".feature-row", function(e) {
 
 $(document).ready(function() {
   if (!urlParams.id) {
-    alert('URL missing data share "id" parameter!');
+    alert("URL missing data share 'id' parameter!");
   } else {
     fetchRecords();
   }
