@@ -1,10 +1,10 @@
-data-shares
+share-maps
 ===========
 
 A responsive web mapping application for viewing [Fulcrum Data Shares](http://fulcrumapp.com/manual/data-shares/).
 
 ### Demo:
-http://bmcbride.github.io/data-shares/?id=b711f907a8d42665&title=Surveillance%20Cameras&logo=http://fulcrumapp.com/assets/img/icons/apple-touch-icon.png&title_field=Description&fields=Status,Description,Model%20of%20camera,Coverage%20photos%20Url,Platform%20type,Platform%20height,Platform%20photos%20Url
+http://bmcbride.github.io/share-maps/?id=b711f907a8d42665&title=Surveillance%20Cameras&logo=http://fulcrumapp.com/assets/img/icons/apple-touch-icon.png&title_field=Description&fields=Status,Description,Model%20of%20camera,Coverage%20photos%20Url,Platform%20type,Platform%20height,Platform%20photos%20Url
 
 ### URL Parameters:
 
