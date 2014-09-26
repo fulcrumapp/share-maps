@@ -8,10 +8,10 @@ http://bmcbride.github.io/data-shares/?id=b711f907a8d42665&title=Surveillance%20
 
 ### URL Parameters:
 
-| Parameter     | Default       | Description  | Required
-| ------------- | ------------- | -----------  |
-| _id_          |               | Data share access token | True
-| _title_       | Fulcrum Data  | Navbar, app title | False
-| _logo_        |               | URL to a custom navbar logo | False
-| _title_field_ | Fulcrum Id    | Field used for marker/sidebar title, use the field label | False
-| _fields_      | All           | Comma separated list of specific fields to show | False
+| Parameter     | Default       | Description                                              | Required |
+| ------------- | ------------- | -------------------------------------------------------- | -------- |
+| _id_          |               | Data share access token                                  | True     |
+| _title_       | Fulcrum Data  | Navbar, app title                                        | False    |
+| _logo_        |               | URL to a custom navbar logo                              | False    |
+| _title_field_ | Fulcrum Id    | Field used for marker/sidebar title, use the field label | False    |
+| _fields_      | All           | Comma separated list of specific fields to show          | False    |
