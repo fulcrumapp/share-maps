@@ -1,4 +1,4 @@
-var map, featureList, activeRecord, titleField;
+var map, featureList, activeRecord, titleField, cluster;
 var hiddenSystemFields = ["Created At", "Updated At", "Created By", "Updated By", "System Created At", "System Updated At", "Version", "Project", "Assigned To", "Latitude", "Longitude", "Gps Altitude", "Gps Horizontal Accuracy", "Gps Vertical Accuracy", "Gps Speed", "Gps Course", "Address Sub Thoroughfare", "Address Thoroughfare", "Address Locality", "Address Sub Admin Area", "Address Admin Area", "Address Postal Code", "Address Suite", "Address Country"];
 var userFields = [];
 
@@ -26,6 +26,14 @@ if (urlParams.fields) {
     field = decodeURI(field);
     userFields.push(field);
   });
+}
+
+if (urlParams.cluster) {
+  if (urlParams.cluster === "false" || urlParams.cluster === "False" || urlParams.cluster === "0") {
+    cluster = false;
+  } else {
+    cluster = true;
+  }
 }
 
 /* Basemap Layers */
@@ -118,7 +126,7 @@ $("#refresh-btn").click(function() {
 });
 
 $("#full-extent-btn").click(function() {
-  map.fitBounds(markerClusters.getBounds());
+  map.fitBounds(markers.getBounds());
   return false;
 });
 
@@ -191,7 +199,7 @@ function fetchRecords() {
 
 map = L.map("map", {
   zoom: 10,
-  layers: [mapboxOSM, markerClusters, highlight],
+  layers: [mapboxOSM, highlight],
   zoomControl: false
 }).fitWorld();
 map.attributionControl.setPrefix("");
@@ -259,14 +267,19 @@ var baseLayers = {
   "Aerial Imagery": mapboxSat
 };
 
-var overlays = {
-  "<span name='title'>Fulcrum Data</span>": markerClusters
-};
+var overlays = {};
 
 var layerControl = L.control.layers(baseLayers, overlays, {
   collapsed: isCollapsed
 }).addTo(map);
 
+if (cluster === true) {
+  map.addLayer(markerClusters);
+  layerControl.addOverlay(markerClusters, "<span name='title'>Fulcrum Data</span>");
+} else {
+  map.addLayer(markers);
+  layerControl.addOverlay(markers, "<span name='title'>Fulcrum Data</span>");
+}
 
 /* After GeoJSON loads */
 $(document).one("ajaxStop", function () {

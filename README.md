@@ -11,10 +11,11 @@ http://fulcrumapp.github.io/share-maps/?id=136e85ea80aa6d48&title=Fulcrum%20Disp
 
 ### URL Parameters:
 
-| Parameter     | Default       | Description                                              | Required |
-| ------------- | ------------- | -------------------------------------------------------- | -------- |
-| _id_          |               | Data share access token                                  | True     |
-| _title_       | Fulcrum Data  | Navbar, app title                                        | False    |
-| _logo_        |               | URL to a custom navbar logo                              | False    |
-| _title_field_ | Fulcrum Id    | Field used for marker/sidebar title, use the field label | False    |
-| _fields_      | All           | Comma separated list of specific fields to show          | False    |
+| Parameter     | Options                 | Default       | Description                                              | Required |
+| ------------- | ----------------------- | ------------- | -------------------------------------------------------- | -------- |
+| _id_          | Any valide access token |               | Data share access token                                  | True     |
+| _title_       | Any string              | Fulcrum Data  | Navbar, app title                                        | False    |
+| _logo_        | Any accessible URL      |               | URL to a custom navbar logo                              | False    |
+| _title_field_ | Any valid field label   | Fulcrum Id    | Field used for marker/sidebar title, use the field label | False    |
+| _fields_      | Any valid field labels  | All           | Comma separated list of specific fields to show          | False    |
+| _cluster_     | True / False            | True          | Should markers be clustered?                             | False    |
