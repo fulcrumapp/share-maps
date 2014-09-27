@@ -28,12 +28,10 @@ if (urlParams.fields) {
   });
 }
 
-if (urlParams.cluster) {
-  if (urlParams.cluster === "false" || urlParams.cluster === "False" || urlParams.cluster === "0") {
-    cluster = false;
-  } else {
-    cluster = true;
-  }
+if (urlParams.cluster && (urlParams.cluster === "false" || urlParams.cluster === "False" || urlParams.cluster === "0")) {
+  cluster = false;
+} else {
+  cluster = true;
 }
 
 /* Basemap Layers */
