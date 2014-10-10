@@ -203,10 +203,10 @@ map = L.map("map", {
 map.attributionControl.setPrefix("");
 
 var fulcrumControl = new L.control({
-  position: "bottomright"
+  position: "bottomleft"
 });
 fulcrumControl.onAdd = function (map) {
-  var div = L.DomUtil.create("div", "leaflet-control-attribution");
+  var div = L.DomUtil.create("div");
   div.innerHTML = "<a href='http://fulcrumapp.com/' target='_blank'><img src='assets/img/fulcrum-power.png'></a>";
   return div;
 };
