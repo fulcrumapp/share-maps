@@ -13,7 +13,7 @@ http://fulcrumapp.github.io/share-maps/?id=136e85ea80aa6d48&title=Fulcrum%20Disp
 
 | Parameter     | Options                 | Default       | Description                                              | Required |
 | ------------- | ----------------------- | ------------- | -------------------------------------------------------- | -------- |
-| _id_          | Any valide access token |               | Data share access token                                  | True     |
+| _id_          | Any valid access token  |               | Data share access token                                  | True     |
 | _title_       | Any string              | Fulcrum Data  | Navbar, app title                                        | False    |
 | _logo_        | Any accessible URL      |               | URL to a custom navbar logo                              | False    |
 | _title_field_ | Any valid field label   | Fulcrum Id    | Field used for marker/sidebar title, use the field label | False    |

@@ -70,7 +70,7 @@ var markers = L.geoJson(null, {
         if (prop === null) {
           prop = "";
         } else if (prop.toString().indexOf("https://web.fulcrumapp.com/shares/" + urlParams.id + "/photos/") === 0) {
-          prop = "<a href='" + prop + "' target='blank'>View photos</a>";
+          prop = "<a href='#' onclick='photoGallery(\"" + prop + "\"); return false;'>View Photos</a>";
         } else if (prop.toString().indexOf("https://web.fulcrumapp.com/shares/" + urlParams.id + "/videos/") === 0) {
           prop = "<a href='" + prop + "' target='blank'>View videos</a>";
         } else if (prop.toString().indexOf("https://web.fulcrumapp.com/shares/" + urlParams.id + "/signatures/") === 0) {
@@ -156,6 +156,24 @@ $("#share-btn").click(function() {
   $("#share-twitter").attr("href", "https://twitter.com/intent/tweet?url=" + link + "&via=fulcrumapp");
   $("#share-facebook").attr("href", "https://facebook.com/sharer.php?u=" + link);
 });
+
+function photoGallery(photos) {
+  var photoArray = [];
+  var photoIDs = photos.split("photos=")[1];
+  $.each(photoIDs.split("%2C"), function(index, id) {
+    photoArray.push({href: "https://web.fulcrumapp.com/shares/" + urlParams.id + "/photos/" + id});
+  });
+  $.fancybox(photoArray, {
+    "type": "image",
+    "showNavArrows": true,
+    "padding": 0,
+    "scrolling": "no",
+    beforeShow: function () {
+      this.title = "Photo " + (this.index + 1) + " of " + this.group.length + (this.title ? " - " + this.title : "");
+    }
+  });
+  return false;
+}
 
 function zoomToFeature(id) {
   markers.eachLayer(function (layer) {
