@@ -1,4 +1,4 @@
-var map, featureList, activeRecord, titleField, cluster;
+var map, autoRefresh, featureList, activeRecord, titleField, cluster;
 var hiddenSystemFields = ["Created At", "Updated At", "Created By", "Updated By", "System Created At", "System Updated At", "Version", "Project", "Assigned To", "Latitude", "Longitude", "Gps Altitude", "Gps Horizontal Accuracy", "Gps Vertical Accuracy", "Gps Speed", "Gps Course", "Address Sub Thoroughfare", "Address Thoroughfare", "Address Locality", "Address Sub Admin Area", "Address Admin Area", "Address Postal Code", "Address Suite", "Address Country"];
 var userFields = [];
 
@@ -52,7 +52,8 @@ var highlight = L.geoJson(null);
 var markerClusters = new L.MarkerClusterGroup({
   spiderfyOnMaxZoom: true,
   showCoverageOnHover: false,
-  zoomToBoundsOnClick: true
+  zoomToBoundsOnClick: true,
+  disableClusteringAtZoom: 18
 });
 
 var markers = L.geoJson(null, {
@@ -122,6 +123,15 @@ $("#refresh-btn").click(function() {
   fetchRecords();
   $(".navbar-collapse.in").collapse("hide");
   return false;
+});
+
+$("#auto-refresh").click(function() {
+  fetchRecords();
+  if ($(this).prop("checked")) {
+    autoRefresh = window.setInterval(fetchRecords, 60 * 1000);
+  } else {
+    clearInterval(autoRefresh);
+  }
 });
 
 $("#full-extent-btn").click(function() {

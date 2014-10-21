@@ -6,8 +6,8 @@
     <meta name="viewport" content="initial-scale=1,user-scalable=no,maximum-scale=1,width=device-width">
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="description" content="">
-    <meta name="author" content="">
+    <meta name="description" content="A responsive web mapping application for viewing Fulcrum Data Shares">
+    <meta name="author" content="Bryan McBride">
     <title name="title">Fulcrum Data</title>
 
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
@@ -37,7 +37,14 @@
       </div>
       <div class="navbar-collapse collapse">
         <ul class="nav navbar-nav">
-          <li><a href="#" data-toggle="collapse" data-target=".navbar-collapse.in" id="refresh-btn"><i class="fa fa-refresh white"></i>&nbsp;&nbsp;Refresh</a></li>
+          <!-- <li><a href="#" data-toggle="collapse" data-target=".navbar-collapse.in" id="refresh-btn"><i class="fa fa-refresh white"></i>&nbsp;&nbsp;Refresh</a></li> -->
+          <li class="dropdown">
+              <a class="dropdown-toggle" id="downloadDrop" href="#" role="button" data-toggle="dropdown"><i class="fa fa-refresh white"></i>&nbsp;&nbsp;Refresh <b class="caret"></b></a>
+              <ul class="dropdown-menu dropdown-menu-form">
+                <li><a href="#" id="refresh-btn" data-toggle="collapse" data-target=".navbar-collapse.in"><i class="fa fa-refresh"></i>&nbsp;&nbsp;Refresh Now</a></li>
+                <li style="padding: 3px 20px; white-space: nowrap;"><input type="checkbox" id="auto-refresh">&nbsp;&nbsp;Auto Refresh (every minute)</li>
+              </ul>
+          </li>
           <li><a href="#" data-toggle="collapse" data-target=".navbar-collapse.in" id="full-extent-btn"><i class="fa fa-arrows-alt white"></i>&nbsp;&nbsp;Full Extent</a></li>
           <li class="dropdown">
               <a class="dropdown-toggle" id="downloadDrop" href="#" role="button" data-toggle="dropdown"><i class="fa fa-cloud-download white"></i>&nbsp;&nbsp;Download <b class="caret"></b></a>
