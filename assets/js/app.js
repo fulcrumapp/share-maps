@@ -107,7 +107,7 @@ var markers = L.geoJson(null, {
 });
 
 $(document).on("click", ".feature-row", function(e) {
-  sidebarClick(parseInt($(this).attr('id')));
+  sidebarClick(parseInt($(this).attr("id"), 10));
 });
 
 $(document).ready(function() {
