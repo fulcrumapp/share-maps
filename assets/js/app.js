@@ -107,7 +107,7 @@ var markers = L.geoJson(null, {
 });
 
 $(document).on("click", ".feature-row", function(e) {
-  sidebarClick(parseInt($(this).attr('id')));
+  sidebarClick(parseInt($(this).attr("id"), 10));
 });
 
 $(document).ready(function() {
@@ -120,11 +120,13 @@ $(document).ready(function() {
 
 $("#refresh-btn").click(function() {
   fetchRecords();
+  $(".navbar-collapse.in").collapse("hide");
   return false;
 });
 
 $("#full-extent-btn").click(function() {
   map.fitBounds(markers.getBounds());
+  $(".navbar-collapse.in").collapse("hide");
   return false;
 });
 
