@@ -165,8 +165,8 @@ $("#sidebar-hide-btn").click(function() {
 $("#share-btn").click(function() {
   var link = location.toString() + "&fulcrum_id=" + activeRecord;
   $("#share-hyperlink").attr("href", link);
-  $("#share-twitter").attr("href", "https://twitter.com/intent/tweet?url=" + link + "&via=fulcrumapp");
-  $("#share-facebook").attr("href", "https://facebook.com/sharer.php?u=" + link);
+  $("#share-twitter").attr("href", "https://twitter.com/intent/tweet?url=" + encodeURIComponent(link) + "&via=fulcrumapp");
+  $("#share-facebook").attr("href", "https://facebook.com/sharer.php?u=" + encodeURIComponent(link));
 });
 
 function photoGallery(photos) {
