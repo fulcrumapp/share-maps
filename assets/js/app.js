@@ -120,11 +120,13 @@ $(document).ready(function() {
 
 $("#refresh-btn").click(function() {
   fetchRecords();
+  $(".navbar-collapse.in").collapse("hide");
   return false;
 });
 
 $("#full-extent-btn").click(function() {
   map.fitBounds(markers.getBounds());
+  $(".navbar-collapse.in").collapse("hide");
   return false;
 });
 
