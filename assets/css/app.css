@@ -103,6 +103,10 @@ input[type="radio"], input[type="checkbox"] {
 .navbar-header a.navbar-icon {
   margin-left: 22px;
 }
+.dropdown-input {
+  padding: 3px 20px;
+  white-space: nowrap;
+}
 @media (max-width: 992px) {
   .navbar .navbar-brand {
     font-size: 16px;
@@ -121,6 +125,9 @@ input[type="radio"], input[type="checkbox"] {
   }
   .dropdown-menu a i{
     color: #FFFFFF;
+  }
+  .dropdown-input {
+    color: #777;
   }
 }
 /* Print Handling */

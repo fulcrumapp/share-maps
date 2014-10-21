@@ -311,16 +311,22 @@ if (cluster === true) {
 
 /* After GeoJSON loads */
 $(document).one("ajaxStop", function () {
+  /* Build social share button links */
+  $("#twitter-share").attr("src", "//platform.twitter.com/widgets/tweet_button.html?url="+document.URL+"&via=fulcrumapp");
+  $(".fb-share-button").attr("data-href", document.URL);
+  
   /* Update navbar & layer title from URL parameter */
   if (urlParams.title && urlParams.title.length > 0) {
     var title = decodeURI(urlParams.title);
     $("[name='title']").html(title);
   }
+  
   /* Add navbar logo from URL parameter */
   if (urlParams.logo && urlParams.logo.length > 0) {
     $("#navbar-title").prepend("<img src='" + urlParams.logo + "'>");
   }
 
+  /* Build data download links */
   $("#csv-download").attr("href", "https://web.fulcrumapp.com/shares/" + urlParams.id + ".csv");
   $("#geojson-download").attr("href", "https://web.fulcrumapp.com/shares/" + urlParams.id + ".geojson");
   $("#raw-kml-download").attr("href", "https://web.fulcrumapp.com/shares/" + urlParams.id + ".kml");
