@@ -92,6 +92,7 @@ input[type="radio"], input[type="checkbox"] {
   height: 100%;
   margin-top: -5px;
   margin-right: 15px;
+  display: inline;
 }
 .navbar-header .navbar-icon-container {
   margin-right: 15px;
@@ -123,7 +124,7 @@ input[type="radio"], input[type="checkbox"] {
     -webkit-hyphens: auto;
       hyphens: auto;
   }
-  .dropdown-menu a i{
+  .navbar .dropdown-menu a i{
     color: #FFFFFF;
   }
   .dropdown-input {
