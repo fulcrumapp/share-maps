@@ -76,6 +76,8 @@ var markers = L.geoJson(null, {
           prop = "<a href='" + prop + "' target='blank'>View videos</a>";
         } else if (prop.toString().indexOf("https://web.fulcrumapp.com/shares/" + urlParams.id + "/signatures/") === 0) {
           prop = "<a href='" + prop + "' target='blank'>View signatures</a>";
+        } else if (prop.toString().indexOf("https://") === 0 || prop.toString().indexOf("http://") === 0) {
+          prop = "<a href='" + prop + "' target='blank'>" + prop + "</a>";
         }
         if (userFields.length > 0) {
           if ($.inArray(index, hiddenSystemFields) == -1 && $.inArray(index, userFields) !== -1 && index !== "Fulcrum Id") {
