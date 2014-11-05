@@ -98,7 +98,7 @@ var markers = L.geoJson(null, {
       if (feature.properties["marker-color"]) {
         layer.setIcon(
           L.icon({
-            iconUrl: "assets/img/markers/" + feature.properties["marker-color"].replace("#",'') + ".png",
+            iconUrl: "assets/img/markers/" + feature.properties["marker-color"].replace("#",'').toLowerCase() + ".png",
             iconSize: [30, 40],
             iconAnchor: [15, 32]
           })
@@ -250,7 +250,7 @@ function updateLegend() {
     $(".legend").remove();
     $("#fulcrum-layer").append("<div class='legend'></div>");
     $.each(legendItems, function(index, value) {
-      $(".legend").append("<div><img src='assets/img/markers/" + value.replace("#",'') + ".png' height='20px' width='15px'>" + index + "</div>");
+      $(".legend").append("<div><img src='assets/img/markers/" + value.replace("#",'').toLowerCase() + ".png' height='20px' width='15px'>" + index + "</div>");
     });
   }
 }
