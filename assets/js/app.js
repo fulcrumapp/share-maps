@@ -53,8 +53,7 @@ var highlight = L.geoJson(null);
 var markerClusters = new L.MarkerClusterGroup({
   spiderfyOnMaxZoom: true,
   showCoverageOnHover: false,
-  zoomToBoundsOnClick: true,
-  disableClusteringAtZoom: 18
+  zoomToBoundsOnClick: true
 });
 
 var markers = L.geoJson(null, {
@@ -215,9 +214,6 @@ function zoomToFeature(id) {
 }
 
 function sidebarClick(id) {
-  if (!map.hasLayer(markerClusters)) {
-    map.addLayer(markerClusters);
-  }
   var layer = markers.getLayer(id);
   map.setView([layer.getLatLng().lat, layer.getLatLng().lng], 18);
   layer.fire("click");
