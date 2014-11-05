@@ -83,6 +83,12 @@ input[type="radio"], input[type="checkbox"] {
 .table {
   margin-bottom: 0px;
 }
+.legend {
+  padding: 5px;
+}
+.legend img {
+  margin-right: 5px;
+}
 .navbar .navbar-brand {
   font-weight: bold;
   font-size: 24px;
