@@ -1,6 +1,7 @@
 var map, autoRefresh, featureList, activeRecord, titleField, cluster;
 var hiddenSystemFields = ["Created At", "Updated At", "Created By", "Updated By", "System Created At", "System Updated At", "Version", "Project", "Assigned To", "Latitude", "Longitude", "Gps Altitude", "Gps Horizontal Accuracy", "Gps Vertical Accuracy", "Gps Speed", "Gps Course", "Address Sub Thoroughfare", "Address Thoroughfare", "Address Locality", "Address Sub Admin Area", "Address Admin Area", "Address Postal Code", "Address Suite", "Address Country"];
 var userFields = [];
+var legendItems = {};
 
 /* Get URL parameters */
 var urlParams = {};
@@ -60,7 +61,12 @@ var markers = L.geoJson(null, {
   pointToLayer: function (feature, latlng) {
     return L.marker(latlng, {
       title: feature.properties[titleField],
-      riseOnHover: true
+      riseOnHover: true,
+      icon: L.icon({
+        iconUrl: "assets/img/markers/cb0d0c.png",
+        iconSize: [30, 40],
+        iconAnchor: [15, 32]
+      })
     });
   },
   onEachFeature: function (feature, layer) {
@@ -89,6 +95,16 @@ var markers = L.geoJson(null, {
           }
         }
       });
+      if (feature.properties["marker-color"]) {
+        layer.setIcon(
+          L.icon({
+            iconUrl: "assets/img/markers/" + feature.properties["marker-color"].replace("#",'') + ".png",
+            iconSize: [30, 40],
+            iconAnchor: [15, 32]
+          })
+        );
+        legendItems[feature.properties.Status] = feature.properties["marker-color"];
+      }
       content += "<table>";
       layer.on({
         click: function (e) {
@@ -217,14 +233,26 @@ function fetchRecords() {
   highlight.clearLayers();
   markers.clearLayers();
   markerClusters.clearLayers();
+  legendItems = {};
   $("#feature-list tbody").empty();
   $.getJSON("https://web.fulcrumapp.com/shares/" + urlParams.id + ".geojson?human_friendly=true", function (data) {
     markers.addData(data);
     markerClusters.addLayer(markers);
     featureList = new List("features", {valueNames: ["feature-name"]});
     featureList.sort("feature-name", {order:"asc"});
+    updateLegend();
     $("#loading").hide();
   });
+}
+
+function updateLegend() {
+  if (! $.isEmptyObject(legendItems)) {
+    $(".legend").remove();
+    $("#fulcrum-layer").append("<div class='legend'></div>");
+    $.each(legendItems, function(index, value) {
+      $(".legend").append("<div><img src='assets/img/markers/" + value.replace("#",'') + ".png' height='20px' width='15px'>" + index + "</div>");
+    });
+  }
 }
 
 map = L.map("map", {
@@ -305,10 +333,10 @@ var layerControl = L.control.layers(baseLayers, overlays, {
 
 if (cluster === true) {
   map.addLayer(markerClusters);
-  layerControl.addOverlay(markerClusters, "<span name='title'>Fulcrum Data</span>");
+  layerControl.addOverlay(markerClusters, "<span name='title' id='fulcrum-layer'>Fulcrum Data</span>");
 } else {
   map.addLayer(markers);
-  layerControl.addOverlay(markers, "<span name='title'>Fulcrum Data</span>");
+  layerControl.addOverlay(markers, "<span name='title' id='fulcrum-layer'>Fulcrum Data</span>");
 }
 
 /* After GeoJSON loads */
@@ -322,6 +350,9 @@ $(document).one("ajaxStop", function () {
     var title = decodeURI(urlParams.title);
     $("[name='title']").html(title);
   }
+
+  /* Add legend with status values */
+  updateLegend();
   
   /* Add navbar logo from URL parameter */
   if (urlParams.logo && urlParams.logo.length > 0) {
