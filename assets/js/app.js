@@ -340,7 +340,7 @@ $(document).one("ajaxStop", function () {
   /* Build social share button links */
   $("#twitter-share").attr("src", "//platform.twitter.com/widgets/tweet_button.html?url="+document.URL+"&via=fulcrumapp");
   $(".fb-share-button").attr("data-href", document.URL);
-  
+
   /* Update navbar & layer title from URL parameter */
   if (urlParams.title && urlParams.title.length > 0) {
     var title = decodeURI(urlParams.title);
@@ -349,7 +349,7 @@ $(document).one("ajaxStop", function () {
 
   /* Add legend with status values */
   updateLegend();
-  
+
   /* Add navbar logo from URL parameter */
   if (urlParams.logo && urlParams.logo.length > 0) {
     $("#navbar-title").prepend("<img src='" + urlParams.logo + "'>");
