@@ -36,15 +36,10 @@ if (urlParams.cluster && (urlParams.cluster === "false" || urlParams.cluster ===
 }
 
 /* Basemap Layers */
-var mapboxOSM = L.tileLayer("http://{s}.tiles.mapbox.com/v3/spatialnetworks.map-6l9yntw9/{z}/{x}/{y}.jpg", {
+var cartoVoyager = L.tileLayer("https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}@2x.png", {
   maxZoom: 19,
-  subdomains: ["a", "b", "c", "d"],
-  attribution: 'Basemap <a href="https://www.mapbox.com/about/maps/" target="_blank">© Mapbox © OpenStreetMap</a>'
-});
-var mapboxSat = L.tileLayer("http://{s}.tiles.mapbox.com/v3/spatialnetworks.map-xkumo5oi/{z}/{x}/{y}.jpg", {
-  maxZoom: 19,
-  subdomains: ["a", "b", "c", "d"],
-  attribution: 'Basemap <a href="https://www.mapbox.com/about/maps/" target="_blank">© Mapbox © OpenStreetMap</a>'
+  subdomains: ["a", "b", "c"],
+  attribution: 'Basemap © <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, © <a href="https://carto.com/attribution">CARTO</a>'
 });
 
 /* Overlay Layers */
@@ -253,7 +248,7 @@ function updateLegend() {
 
 map = L.map("map", {
   zoom: 10,
-  layers: [mapboxOSM, highlight],
+  layers: [cartoVoyager, highlight],
   zoomControl: false
 }).fitWorld();
 map.attributionControl.setPrefix("");
@@ -317,13 +312,12 @@ if (document.body.clientWidth <= 767) {
 }
 
 var baseLayers = {
-  "Street Map": mapboxOSM,
-  "Aerial Imagery": mapboxSat
+  "Street Map": cartoVoyager
 };
 
 var overlays = {};
 
-var layerControl = L.control.layers(baseLayers, overlays, {
+var layerControl = L.control.layers(null, overlays, {
   collapsed: isCollapsed
 }).addTo(map);
 
